@@ -2,7 +2,7 @@
 
 rootdir=$(pwd)
 for gradlewfile in $(find . -name gradlew); do
-    dir=$(dirname $runscript)
+    dir=$(dirname $gradlewfile)
     echo 'Building' $dir
     cd $dir
     ./gradlew build --stacktrace
