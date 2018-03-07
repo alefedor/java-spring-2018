@@ -5,7 +5,7 @@ for gradlewfile in $(find . -name gradlew); do
     dir=$(dirname $gradlewfile)
     echo 'Building' $dir
     cd $dir
-    ./gradlew build --stacktrace
+    ./gradlew test
     if [ $? -ne 0 ]; then
         echo "Error while running in "
         echo $dir

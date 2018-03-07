@@ -17,7 +17,7 @@ public class LazyFactory {
      */
     public static <T> Lazy<T> createSingleThreadLazy(@NotNull Supplier<T> supplier) {
         return new Lazy<T>() {
-            private Optional<T> result;
+            private volatile Optional<T> result;
 
             @Override
             public T get() {
@@ -37,7 +37,7 @@ public class LazyFactory {
      */
     public static <T> Lazy<T> createMultipleThreadLazy(@NotNull Supplier<T> supplier) {
         return new Lazy<T>() {
-            private Optional<T> result;
+            private volatile Optional<T> result;
 
             @Override
             public T get() {
