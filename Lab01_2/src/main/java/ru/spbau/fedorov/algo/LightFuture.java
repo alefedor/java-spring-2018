@@ -16,10 +16,10 @@ public interface LightFuture<T> {
 
     /**
      * Returns result of task. Waits if not executed yet.
-     * @throws LightFutureException when RuntimeError occured on execution
+     * @throws LightExecutionException when RuntimeError occured on execution
      * @throws InterruptedException when interrupt while waiting for execution
      */
-    T get() throws LightFutureException, InterruptedException;
+    T get() throws LightExecutionException, InterruptedException;
 
     /**
      * Add task to thread pool which applies function on the result of this task.
@@ -27,5 +27,5 @@ public interface LightFuture<T> {
      * @return LightFuture object assigned to requested task
      */
     @NotNull
-    LightFuture<T> thenApply(Function<T, T> function);
+    <K> LightFuture<K> thenApply(@NotNull Function<T, K> function);
 }

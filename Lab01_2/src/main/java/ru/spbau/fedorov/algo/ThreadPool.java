@@ -46,9 +46,9 @@ public class ThreadPool {
     /**
      * Interrupts all worker threads and waites for them to finish.
      * @throws InterruptedException if interrupted while waiting for worker threads finishing
-     * @throws LightFutureException if an RuntimeException in worker thread occured
+     * @throws LightExecutionException if an RuntimeException in worker thread occured
      */
-    public void shutdown() throws InterruptedException, LightFutureException {
+    public void shutdown() throws InterruptedException, LightExecutionException {
         for (Thread thread : threads) {
             thread.interrupt();
         }
@@ -64,7 +64,8 @@ public class ThreadPool {
      * @param <T> type of res   ult of task
      * @return LightFuture assigned to the task
      */
-    public <T> LightFuture<T> addTask(Supplier<T> supplier) {
+    @NotNull
+    public <T> LightFuture<T> addTask(@NotNull Supplier<T> supplier) {
         ThreadPoolTask<T> task = new ThreadPoolTask<>(supplier);
         tasks.add(task);
         return task;
@@ -84,7 +85,7 @@ public class ThreadPool {
          * Constructs ThreadPoolTask.
          * @param supplier task to execute.
          */
-        private ThreadPoolTask(Supplier<T> supplier) {
+        private ThreadPoolTask(@NotNull Supplier<T> supplier) {
             this.supplier = supplier;
         }
 
@@ -94,13 +95,13 @@ public class ThreadPool {
         }
 
         @Override
-        public synchronized T get()  throws LightFutureException, InterruptedException {
+        public synchronized T get()  throws LightExecutionException, InterruptedException {
             while (!isReady) {
                 wait();
             }
 
             if (exception != null) {
-                throw new LightFutureException(exception);
+                throw new LightExecutionException(exception);
             }
 
             return result;
@@ -108,10 +109,10 @@ public class ThreadPool {
 
         @NotNull
         @Override
-        public synchronized LightFuture<T> thenApply(Function<T, T> function) {
-            return ThreadPool.this.addTask(new Supplier<T>() {
+        public synchronized <K> LightFuture<K> thenApply(@NotNull Function<T, K> function) {
+            return ThreadPool.this.addTask(new Supplier<K>() {
                 @Override
-                public T get() {
+                public K get() {
                     try {
                         return function.apply(ThreadPoolTask.this.get());
                     } catch (Exception e) {
@@ -125,7 +126,7 @@ public class ThreadPool {
          * Handle case when RuntimeException occured.
          * @param exception which occured.
          */
-        private synchronized void setException(RuntimeException exception) {
+        private synchronized void setException(@NotNull RuntimeException exception) {
             this.exception = exception;
             isReady = true;
             notify();

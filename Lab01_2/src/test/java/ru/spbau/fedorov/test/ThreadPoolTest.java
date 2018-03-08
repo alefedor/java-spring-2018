@@ -1,8 +1,8 @@
 package ru.spbau.fedorov.test;
 
 import org.junit.Test;
+import ru.spbau.fedorov.algo.LightExecutionException;
 import ru.spbau.fedorov.algo.LightFuture;
-import ru.spbau.fedorov.algo.LightFutureException;
 import ru.spbau.fedorov.algo.ThreadPool;
 
 import java.util.Random;
@@ -15,7 +15,7 @@ public class ThreadPoolTest {
     private static final Supplier<Integer> randomSupplier = () -> new Random().nextInt();
 
     @Test
-    public void testShutdownWithoutTasks() throws LightFutureException, InterruptedException {
+    public void testShutdownWithoutTasks() throws LightExecutionException, InterruptedException {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
         int threadsOnStart = threadGroup.activeCount();
         ThreadPool threadPool = new ThreadPool(100);
@@ -25,7 +25,7 @@ public class ThreadPoolTest {
     }
 
     @Test
-    public void testShutdown() throws LightFutureException, InterruptedException {
+    public void testShutdown() throws LightExecutionException, InterruptedException {
         ThreadGroup threadGroup = Thread.currentThread().getThreadGroup();
         int threadsOnStart = threadGroup.activeCount();
         ThreadPool threadPool = new ThreadPool(100);
@@ -50,7 +50,7 @@ public class ThreadPoolTest {
     }
 
     @Test
-    public void testExecution() throws LightFutureException, InterruptedException {
+    public void testExecution() throws LightExecutionException, InterruptedException {
         ThreadPool threadPool = new ThreadPool(100);
         @SuppressWarnings("unchecked")
         LightFuture<Integer> tasks[] = new LightFuture[1000];
@@ -71,7 +71,7 @@ public class ThreadPoolTest {
     }
 
     @Test
-    public void testExecutionResult() throws LightFutureException, InterruptedException {
+    public void testExecutionResult() throws LightExecutionException, InterruptedException {
         ThreadPool threadPool = new ThreadPool(100);
         @SuppressWarnings("unchecked")
         LightFuture<Integer> tasks[] = new LightFuture[1000];
@@ -94,7 +94,30 @@ public class ThreadPoolTest {
     }
 
     @Test
-    public void testThenApply() throws LightFutureException, InterruptedException {
+    public void testExecutionResultSingleThread() throws LightExecutionException, InterruptedException {
+        ThreadPool threadPool = new ThreadPool(1);
+        @SuppressWarnings("unchecked")
+        LightFuture<Integer> tasks[] = new LightFuture[1000];
+
+        for (int i = 0; i < 1000; i++) {
+            int toAdd = i;
+            tasks[i] = threadPool.addTask(() -> toAdd);
+        }
+
+        for (int i = 0; i < 1000; i++) {
+            tasks[i].get();
+        }
+
+        threadPool.shutdown();
+
+        for (int i = 0; i < tasks.length; i++) {
+            assertEquals(true, tasks[i].isReady());
+            assertEquals(i, (int)tasks[i].get());
+        }
+    }
+
+    @Test
+    public void testThenApply() throws LightExecutionException, InterruptedException {
         ThreadPool threadPool = new ThreadPool(100);
         @SuppressWarnings("unchecked")
         LightFuture<Integer> tasks[] = new LightFuture[1000];
@@ -117,7 +140,7 @@ public class ThreadPoolTest {
     }
 
     @Test
-    public void testThenApplyOnSame() throws LightFutureException, InterruptedException {
+    public void testThenApplyOnSame() throws LightExecutionException, InterruptedException {
         ThreadPool threadPool = new ThreadPool(100);
         @SuppressWarnings("unchecked")
         LightFuture<Integer> tasks[] = new LightFuture[1000];
@@ -139,8 +162,8 @@ public class ThreadPoolTest {
         }
     }
 
-    @Test(expected = LightFutureException.class)
-    public void testRuntimeError() throws LightFutureException, InterruptedException {
+    @Test(expected = LightExecutionException.class)
+    public void testRuntimeError() throws LightExecutionException, InterruptedException {
         ThreadPool threadPool = new ThreadPool(100);
         @SuppressWarnings("unchecked")
         LightFuture<Integer> tasks[] = new LightFuture[1000];
@@ -158,5 +181,29 @@ public class ThreadPoolTest {
         }
 
         threadPool.shutdown();
+    }
+
+    @SuppressWarnings("unchecked")
+    @Test
+    public void testThenApplyChangeType() throws LightExecutionException, InterruptedException {
+        ThreadPool threadPool = new ThreadPool(100);
+        @SuppressWarnings("unchecked")
+        LightFuture<?> tasks[] = new LightFuture[3];
+
+        tasks[0] = threadPool.addTask(() -> 0);
+        tasks[1] = tasks[0].thenApply(Object::toString);
+        tasks[2] = tasks[1].thenApply(Object::getClass);
+        for (int i = 0; i < tasks.length; i++) {
+            tasks[i].get();
+        }
+
+        threadPool.shutdown();
+
+        for (int i = 0; i < tasks.length; i++) {
+            assertEquals(true, tasks[i].isReady());
+        }
+        assertEquals(0, (int)((LightFuture<Integer>)tasks[0]).get());
+        assertEquals("0", ((LightFuture<String>)tasks[1]).get());
+        assertEquals(String.class, ((LightFuture<Class<?>>)tasks[2]).get());
     }
 }

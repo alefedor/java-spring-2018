@@ -4,20 +4,20 @@ package ru.spbau.fedorov.algo;
  * Exception which is returned when Runtime error was thrown on execution of task
  * thread during execution.
  */
-public class LightFutureException extends Exception{
+public class LightExecutionException extends Exception{
     /**
-     * Creates LightFutureException
+     * Creates LightExecutionException
      * @param message string to be stored in Exception
      */
-    public LightFutureException(String message) {
+    public LightExecutionException(String message) {
         super(message);
     }
 
     /**
-     * Creates LightFutureException
+     * Creates LightExecutionException
      * @param throwable exception that occured in thread
      */
-    public LightFutureException(Throwable throwable) {
+    public LightExecutionException(Throwable throwable) {
         super(throwable);
     }
 }
