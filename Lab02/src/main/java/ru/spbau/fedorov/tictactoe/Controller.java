@@ -1,22 +1,23 @@
 package ru.spbau.fedorov.tictactoe;
 
+import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
 import ru.spbau.fedorov.tictactoe.Bot.Bot;
 import ru.spbau.fedorov.tictactoe.Logic.Model;
 import ru.spbau.fedorov.tictactoe.Statistics.GameInfo;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Observable;
+import ru.spbau.fedorov.tictactoe.Statistics.TableElement;
 
 public class Controller {
+    @FXML
+    private Button stats;
     @FXML
     private Label message;
     @FXML
@@ -28,20 +29,21 @@ public class Controller {
     @FXML
     private RadioButton hardBot;
     @FXML
-    private TableView statistics;
+    private TableView<TableElement> statistics;
     @FXML
-    private TableColumn mode;
+    private TableColumn<TableElement, String> modeColumn;
     @FXML
-    private TableColumn result;
+    private TableColumn<TableElement, String> resultColumn;
     @FXML
     private GridPane board;
+
+    private final ObservableList<TableElement> tableList = FXCollections.observableArrayList();
 
     private ToggleGroup botLevel;
 
     private Model model;
     private Bot bot;
     private GameInfo.GameMode gameMode;
-    private List<GameInfo> previousGames = new ArrayList<>();
     private boolean gameOn = false;
     private boolean isX = true;
 
@@ -51,6 +53,11 @@ public class Controller {
         hardBot.setToggleGroup(botLevel);
 
         showGameNotStarted();
+
+        statistics.setItems(tableList);
+        statistics.setSelectionModel(null);
+        modeColumn.setCellValueFactory(new PropertyValueFactory<>("gameMode"));
+        resultColumn.setCellValueFactory(new PropertyValueFactory<>("gameResult"));
 
         ObservableList<Node> nodes = board.getChildren();
         for (int i = 0; i < nodes.size(); i++) {
@@ -103,8 +110,9 @@ public class Controller {
     private void onGameEnd(@NotNull GameInfo.GameResult result) {
         GameInfo gameInfo = new GameInfo(gameMode, result);
         gameOn = false;
-        previousGames.add(gameInfo);
+        tableList.add(new TableElement(gameInfo.getGameMode(), gameInfo.getGameResult()));
         message.setText(gameInfo.getGameResult());
+
     }
 
     public void newGameTwoPlayers(MouseEvent mouseEvent) {
@@ -125,7 +133,17 @@ public class Controller {
     }
 
     public void showStatistics(MouseEvent mouseEvent) {
+        boolean showStat = false;
+        if (board.isVisible()) {
+            showStat = true;
+        }
 
+        board.setVisible(!showStat);
+        board.setDisable(showStat);
+        statistics.setVisible(showStat);
+        statistics.setDisable(!showStat);
+
+        stats.setText(showStat ? "Board" : "Statistics");
     }
 
     private void clearBoard() {

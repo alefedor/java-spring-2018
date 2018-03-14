@@ -32,7 +32,7 @@
                 <Button fx:id="onePlayerButton" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" mnemonicParsing="false" onMouseClicked="#newGameOnePlayer" text="One player" />
                 <RadioButton fx:id="easyBot" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" selected="true" text="Easy bot" />
                 <RadioButton fx:id="hardBot" alignment="CENTER_RIGHT" contentDisplay="RIGHT" mnemonicParsing="false" text="Hard bot" />
-                <Button alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" mnemonicParsing="false" onMouseClicked="#showStatistics" text="Statistics" />
+                <Button fx:id="stats" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" mnemonicParsing="false" onMouseClicked="#showStatistics" text="Statistics" />
 
             </VBox>
         </left>
@@ -40,7 +40,7 @@
             <Pane minHeight="0" prefHeight="30.0" BorderPane.alignment="CENTER" />
         </top>
         <bottom>
-            <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" prefHeight="50.0" prefWidth="300.0" textAlignment="RIGHT" textOverrun="CLIP" BorderPane.alignment="CENTER" />
+            <Label fx:id="message" alignment="CENTER" contentDisplay="CENTER" maxWidth="Infinity" prefHeight="50.0" prefWidth="250.0" textAlignment="RIGHT" wrapText="true" BorderPane.alignment="CENTER" />
         </bottom>
         <center>
             <StackPane maxHeight="Infinity" maxWidth="Infinity" prefHeight="300.0" prefWidth="300.0" BorderPane.alignment="CENTER">
@@ -49,8 +49,8 @@
                 </BorderPane.margin>
                 <TableView fx:id="statistics" disable="true" editable="true" maxHeight="Infinity" maxWidth="Infinity" visible="false">
                     <columns>
-                        <TableColumn fx:id="mode" maxWidth="Infinity" minWidth="20.0" prefWidth="40.0" sortable="false" styleClass="centered" text="Game Mode" />
-                        <TableColumn fx:id="result" maxWidth="Infinity" minWidth="50.0" prefWidth="100.0" styleClass="centered" text="Result" />
+                        <TableColumn fx:id="modeColumn" editable="false" maxWidth="Infinity" minWidth="20.0" prefWidth="200.0" sortable="false" styleClass="centered" text="Game Mode" />
+                        <TableColumn fx:id="resultColumn" editable="false" maxWidth="Infinity" minWidth="50.0" prefWidth="200.0" sortable="false" styleClass="centered" text="Result" />
                     </columns>
                 </TableView>
                 <GridPane fx:id="board" alignment="CENTER" gridLinesVisible="true" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="300.0" BorderPane.alignment="CENTER">

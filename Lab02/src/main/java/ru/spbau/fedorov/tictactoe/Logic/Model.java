@@ -1,7 +1,6 @@
 package ru.spbau.fedorov.tictactoe.Logic;
 
-import org.jetbrains.annotations.NotNull;
-import ru.spbau.fedorov.tictactoe.Controller;
+import org.jetbrains.annotations.Nullable;
 import ru.spbau.fedorov.tictactoe.Statistics.GameInfo;
 
 public class Model {
@@ -28,6 +27,7 @@ public class Model {
         return getGameResult() != null;
     }
 
+    @Nullable
     public GameInfo.GameResult getGameResult() {
         for (int i = 0; i < 3; i++) {
             if (board[i][0].equals(Sign.N)) {
