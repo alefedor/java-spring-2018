@@ -1,28 +1,28 @@
-package ru.spbau.fedorov.tictactoe.Statistics;
+package ru.spbau.fedorov.tictactoe.statistics;
 
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Class for containing results of game
+ */
 public class GameInfo {
-    public enum GameResult {
-        Win,
-        Lose,
-        Draw
-    }
-
-    public enum GameMode {
-        OnePlayerEasy,
-        OnePlayerHard,
-        TwoPlayers
-    }
-
     private GameMode mode;
     private GameResult result;
 
+    /**
+     * Constructs GameInfo on the finished game
+     * @param mode the mode of the game
+     * @param result result of the game
+     */
     public GameInfo(@NotNull GameMode mode, @NotNull GameResult result) {
         this.mode = mode;
         this.result = result;
     }
 
+    /**
+     * Builds String with info about game mode of finished game
+     * @return String with info about game mode
+     */
     @NotNull
     public String getGameMode() {
         if (mode.equals(GameMode.OnePlayerEasy)) {
@@ -34,6 +34,10 @@ public class GameInfo {
         }
     }
 
+    /**
+     * Builds String with info about game results of finished game
+     * @return String with info about game results
+     */
     @NotNull
     public String getGameResult() {
         if (result.equals(GameResult.Draw)) {
@@ -51,5 +55,27 @@ public class GameInfo {
                 return "Second player won";
             }
         }
+    }
+
+    public enum GameResult {
+        Win,
+        Lose,
+        Draw;
+
+        @NotNull
+        public GameResult invert() {
+            if (this.equals(Win)) {
+                return Lose;
+            } else if (this.equals(Lose)) {
+                return Win;
+            }
+            return Draw;
+        }
+    }
+
+    public enum GameMode {
+        OnePlayerEasy,
+        OnePlayerHard,
+        TwoPlayers
     }
 }

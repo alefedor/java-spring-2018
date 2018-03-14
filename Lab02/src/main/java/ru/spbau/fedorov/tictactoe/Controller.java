@@ -10,11 +10,16 @@ import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import org.jetbrains.annotations.NotNull;
-import ru.spbau.fedorov.tictactoe.Bot.Bot;
-import ru.spbau.fedorov.tictactoe.Logic.Model;
-import ru.spbau.fedorov.tictactoe.Statistics.GameInfo;
-import ru.spbau.fedorov.tictactoe.Statistics.TableElement;
+import ru.spbau.fedorov.tictactoe.bot.Bot;
+import ru.spbau.fedorov.tictactoe.bot.EasyBot;
+import ru.spbau.fedorov.tictactoe.bot.HardBot;
+import ru.spbau.fedorov.tictactoe.logic.Model;
+import ru.spbau.fedorov.tictactoe.statistics.GameInfo;
+import ru.spbau.fedorov.tictactoe.statistics.TableElement;
 
+/**
+ * Controller for tic-tac-toe javafx application
+ */
 public class Controller {
     @FXML
     private Button stats;
@@ -47,6 +52,9 @@ public class Controller {
     private boolean gameOn = false;
     private boolean isX = true;
 
+    /**
+     * Initialization of GUI elements
+     */
     public void initialize() {
         botLevel = new ToggleGroup();
         easyBot.setToggleGroup(botLevel);
@@ -81,7 +89,7 @@ public class Controller {
                                 if (model.makeMove(move / 3, move % 3, !isX)) {
                                     confirmMove(move, !isX);
                                 } else {
-                                    throw new RuntimeException("Bot making incorrect moves");
+                                    throw new RuntimeException("bot making incorrect moves");
                                 }
                             }
                         }
@@ -115,23 +123,32 @@ public class Controller {
 
     }
 
+    /**
+     * Start new game with two players
+     */
     public void newGameTwoPlayers(MouseEvent mouseEvent) {
         onGameStart();
         gameMode = GameInfo.GameMode.TwoPlayers;
     }
 
+    /**
+     * Starts new game with bot
+     */
     public void newGameOnePlayer(MouseEvent mouseEvent) {
         onGameStart();
         String id = ((RadioButton) botLevel.getSelectedToggle()).getId();
         if (id.equals("easyBot")) {
-            //bot = ...;
+            bot = new EasyBot(model);
             gameMode = GameInfo.GameMode.OnePlayerEasy;
         } else {
-            //bot = ...;
+            bot = new HardBot(model);
             gameMode = GameInfo.GameMode.OnePlayerHard;
         }
     }
 
+    /**
+     * Show/hide statistics about previous games
+     */
     public void showStatistics(MouseEvent mouseEvent) {
         boolean showStat = false;
         if (board.isVisible()) {
@@ -143,7 +160,7 @@ public class Controller {
         statistics.setVisible(showStat);
         statistics.setDisable(!showStat);
 
-        stats.setText(showStat ? "Board" : "Statistics");
+        stats.setText(showStat ? "Board" : "statistics");
     }
 
     private void clearBoard() {

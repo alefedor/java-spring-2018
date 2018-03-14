@@ -1,7 +1,7 @@
-package ru.spbau.fedorov.tictactoe.Bot;
+package ru.spbau.fedorov.tictactoe.bot;
 
 /**
- * Bot for tic-tac-toe game
+ * bot for tic-tac-toe game
  */
 public interface Bot {
 

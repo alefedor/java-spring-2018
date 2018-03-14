@@ -1,8 +1,11 @@
-package ru.spbau.fedorov.tictactoe.Statistics;
+package ru.spbau.fedorov.tictactoe.statistics;
 
 import javafx.beans.property.SimpleStringProperty;
 import org.jetbrains.annotations.NotNull;
 
+/**
+ * Class for holding statistics in TableView
+ */
 public class TableElement {
     private final SimpleStringProperty gameMode;
     private final SimpleStringProperty gameResult;
