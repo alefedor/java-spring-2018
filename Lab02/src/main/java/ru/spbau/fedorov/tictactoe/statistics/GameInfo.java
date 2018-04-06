@@ -40,9 +40,9 @@ public class GameInfo {
      */
     @NotNull
     public String getGameResult() {
-        if (result.equals(GameResult.Draw)) {
+        if (result.equals(GameResult.DRAW)) {
             return "Played in a draw";
-        } else if (result.equals(GameResult.Win)) {
+        } else if (result.equals(GameResult.WIN)) {
             if (mode.equals(GameMode.OnePlayerHard) || mode.equals(GameMode.OnePlayerEasy)) {
                 return "Was a winner";
             } else {
@@ -58,18 +58,18 @@ public class GameInfo {
     }
 
     public enum GameResult {
-        Win,
-        Lose,
-        Draw;
+        WIN,
+        LOSE,
+        DRAW;
 
         @NotNull
         public GameResult invert() {
-            if (this.equals(Win)) {
-                return Lose;
-            } else if (this.equals(Lose)) {
-                return Win;
+            if (this.equals(WIN)) {
+                return LOSE;
+            } else if (this.equals(LOSE)) {
+                return WIN;
             }
-            return Draw;
+            return DRAW;
         }
     }
 

@@ -11,6 +11,8 @@ public class HardBot implements Bot {
     private static final int ENEMY_COEFF = 4;
 
     private final Model.Sign[][] board;
+    private final int boardSize;
+
 
     /**
      * Constructs a bot.
@@ -18,15 +20,18 @@ public class HardBot implements Bot {
      */
     public HardBot(@NotNull Model model) {
         this.board = model.getBoard();
+        boardSize = model.getBoardSize();
+
     }
 
     @Override
     public int getMove() {
+        int maxMoveNum = boardSize * boardSize;
         int pos = -1;
         int best = -1;
-        for (int i = 0; i < 9; i++)
-            if (board[i / 3][i % 3].equals(Model.Sign.N)) {
-                int priority = getPriority(i / 3, i % 3);
+        for (int i = 0; i < maxMoveNum; i++)
+            if (board[i / boardSize][i % boardSize].equals(Model.Sign.EMPTY)) {
+                int priority = getPriority(i / boardSize, i % boardSize);
                 if (best < priority) {
                     best = priority;
                     pos = i;

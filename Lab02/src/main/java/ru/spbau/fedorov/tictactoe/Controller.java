@@ -13,6 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import ru.spbau.fedorov.tictactoe.bot.Bot;
 import ru.spbau.fedorov.tictactoe.bot.EasyBot;
 import ru.spbau.fedorov.tictactoe.bot.HardBot;
+import ru.spbau.fedorov.tictactoe.logic.GameNotEndedException;
 import ru.spbau.fedorov.tictactoe.logic.Model;
 import ru.spbau.fedorov.tictactoe.statistics.GameInfo;
 import ru.spbau.fedorov.tictactoe.statistics.TableElement;
@@ -21,6 +22,8 @@ import ru.spbau.fedorov.tictactoe.statistics.TableElement;
  * Controller for tic-tac-toe javafx application
  */
 public class Controller {
+    private static final String EASYBOT = "easyBot";
+
     @FXML
     private Button stats;
     @FXML
@@ -51,6 +54,7 @@ public class Controller {
     private GameInfo.GameMode gameMode;
     private boolean gameOn = false;
     private boolean isX = true;
+    private int boardSize;
 
     /**
      * Initialization of GUI elements
@@ -74,7 +78,7 @@ public class Controller {
                 @Override
                 public void handle(MouseEvent event) {
                     if (gameOn) {
-                        if (model.makeMove(id / 3, id % 3, isX)) {
+                        if (model.makeMove(id / boardSize, id % boardSize, isX)) {
                             confirmMove(id, isX);
 
                             if (!gameOn) {
@@ -86,7 +90,7 @@ public class Controller {
                             } else {
                                 int move = bot.getMove();
 
-                                if (model.makeMove(move / 3, move % 3, !isX)) {
+                                if (model.makeMove(move / boardSize, move % boardSize, !isX)) {
                                     confirmMove(move, !isX);
                                 } else {
                                     throw new RuntimeException("bot making incorrect moves");
@@ -107,6 +111,7 @@ public class Controller {
         clearBoard();
         isX = true;
         model = new Model();
+        boardSize = model.getBoardSize();
         showGameStarted();
         gameOn = true;
     }
@@ -137,7 +142,7 @@ public class Controller {
     public void newGameOnePlayer(MouseEvent mouseEvent) {
         onGameStart();
         String id = ((RadioButton) botLevel.getSelectedToggle()).getId();
-        if (id.equals("easyBot")) {
+        if (id.equals(EASYBOT)) {
             bot = new EasyBot(model);
             gameMode = GameInfo.GameMode.OnePlayerEasy;
         } else {
@@ -180,7 +185,12 @@ public class Controller {
         }
 
         if (model.gameEnded()) {
-            GameInfo.GameResult result = model.getGameResult();
+            GameInfo.GameResult result = GameInfo.GameResult.DRAW;
+            try {
+                result = model.getFinalGameResult();
+            } catch (GameNotEndedException e) {
+                e.printStackTrace();
+            }
             onGameEnd(result);
         }
     }

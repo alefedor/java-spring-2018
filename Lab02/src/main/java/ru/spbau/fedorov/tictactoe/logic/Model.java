@@ -8,8 +8,8 @@ import ru.spbau.fedorov.tictactoe.statistics.GameInfo;
  * Class with logic for tic-tac-toe game.
  */
 public class Model {
-    private Sign[][] board = new Sign[3][3];
-
+    private static final int BOARD_SIZE = 3;
+    private Sign[][] board = new Sign[BOARD_SIZE][BOARD_SIZE];
 
     /**
      * Constructs Model with 3x3 board.
@@ -17,15 +17,22 @@ public class Model {
     public Model() {
         for (int i = 0; i < 3; i++)
             for (int j = 0; j < 3; j++){
-               board[i][j] = Sign.N;
+               board[i][j] = Sign.EMPTY;
             }
+    }
+
+    /**
+     * Size of board for game
+     */
+    public int getBoardSize() {
+        return BOARD_SIZE;
     }
 
     /**
      * @return true if cell is empty
      */
     public boolean canMakeMove(int id) {
-        return board[id / 3][id % 3].equals(Sign.N);
+        return board[id / 3][id % 3].equals(Sign.EMPTY);
     }
 
     /**
@@ -36,7 +43,7 @@ public class Model {
      * @return true if move is correct
      */
     public boolean makeMove(int row, int column, boolean isX) {
-        if (!board[row][column].equals(Sign.N)) {
+        if (!board[row][column].equals(Sign.EMPTY)) {
             return false;
         }
         board[row][column] = (isX ? Sign.X : Sign.O);
@@ -56,24 +63,110 @@ public class Model {
      */
     @Nullable
     public GameInfo.GameResult getGameResult() {
-        for (int i = 0; i < 3; i++) {
-            if (board[i][0].equals(Sign.N)) {
-                continue;
+        GameInfo.GameResult result;
+
+        result = getMatchingInColumns();
+        if (result != null) {
+            return result;
+        }
+
+        result = getMatchingInRows();
+        if (result != null) {
+            return result;
+        }
+
+
+        result = getMatchingOnDiagonal();
+        if (result != null) {
+            return result;
+        }
+
+        result = getMatchingOnBackDiagonal();
+        if (result != null) {
+            return result;
+        }
+
+        boolean hasEmpty = isNotFull();
+
+        if (hasEmpty) {
+            return null;
+        } else {
+            return GameInfo.GameResult.DRAW;
+        }
+    }
+
+    @NotNull
+    public GameInfo.GameResult getFinalGameResult() throws GameNotEndedException {
+        GameInfo.GameResult result = getGameResult();
+
+        if (result == null) {
+            throw new GameNotEndedException("Game still in process");
+        }
+
+        return result;
+    }
+
+    private boolean isNotFull() {
+        boolean hasEmpty = false;
+        for (int i = 0; i < 3; i++)
+            for (int j = 0; j < 3; j++) {
+                hasEmpty |= board[i][j].equals(Sign.EMPTY);
             }
+        return hasEmpty;
+    }
+
+    /**
+     * Check for end of game on main diagonal.
+     * Returns null if nothing has been matched
+     */
+    @Nullable
+    private GameInfo.GameResult getMatchingOnDiagonal() {
+        if (!board[0][0].equals(Sign.EMPTY)) {
             boolean sequence =  true;
             for (int j = 1; j < 3; j++) {
-                if (!board[i][j].equals(board[i][0])) {
+                if (!board[j][j].equals(board[0][0])) {
                     sequence = false;
                 }
             }
 
             if (sequence) {
-                return gameResultBySign(board[i][0]);
+                return gameResultBySign(board[0][0]);
             }
         }
 
+        return null;
+    }
+
+    /**
+     * Check for end of game on back diagonal.
+     * Returns null if nothing has been matched
+     */
+    @Nullable
+    private GameInfo.GameResult getMatchingOnBackDiagonal() {
+        if (!board[0][2].equals(Sign.EMPTY)) {
+            boolean sequence =  true;
+            for (int j = 1; j < 3; j++) {
+                if (!board[j][2 - j].equals(board[0][2])) {
+                    sequence = false;
+                }
+            }
+
+            if (sequence) {
+                return gameResultBySign(board[0][2]);
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Check for end of game in columns.
+     * Returns null if nothing has been matched
+     */
+    @Nullable
+    private GameInfo.GameResult getMatchingInColumns() {
         for (int i = 0; i < 3; i++) {
-            if (board[0][i].equals(Sign.N)) {
+            if (board[0][i].equals(Sign.EMPTY)) {
                 continue;
             }
             boolean sequence =  true;
@@ -88,43 +181,32 @@ public class Model {
             }
         }
 
-        if (!board[0][0].equals(Sign.N)) {
+        return null;
+    }
+
+    /**
+     * Check for end of game in rows.
+     * Returns null if nothing has been matched
+     */
+    @Nullable
+    private GameInfo.GameResult getMatchingInRows() {
+        for (int i = 0; i < 3; i++) {
+            if (board[i][0].equals(Sign.EMPTY)) {
+                continue;
+            }
             boolean sequence =  true;
             for (int j = 1; j < 3; j++) {
-                if (!board[j][j].equals(board[0][0])) {
+                if (!board[i][j].equals(board[i][0])) {
                     sequence = false;
                 }
             }
 
             if (sequence) {
-                return gameResultBySign(board[0][0]);
+                return gameResultBySign(board[i][0]);
             }
         }
 
-        if (!board[0][2].equals(Sign.N)) {
-            boolean sequence =  true;
-            for (int j = 1; j < 3; j++) {
-                if (!board[j][2 - j].equals(board[0][2])) {
-                    sequence = false;
-                }
-            }
-
-            if (sequence) {
-                return gameResultBySign(board[0][2]);
-            }
-        }
-
-        boolean hasEmpty = false;
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++) {
-                hasEmpty |= board[i][j].equals(Sign.N);
-            }
-
-        if (hasEmpty) {
-            return null;
-        } else {
-            return GameInfo.GameResult.Draw;
-        }
+        return null;
     }
 
     /**
@@ -138,15 +220,15 @@ public class Model {
 
     private GameInfo.GameResult gameResultBySign(Sign s) {
         if (s.equals(Sign.O)) {
-            return GameInfo.GameResult.Lose;
+            return GameInfo.GameResult.LOSE;
         } else {
-            return GameInfo.GameResult.Win;
+            return GameInfo.GameResult.WIN;
         }
     }
 
     public enum Sign {
         O,
         X,
-        N
+        EMPTY
     }
 }

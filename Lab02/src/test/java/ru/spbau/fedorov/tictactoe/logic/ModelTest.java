@@ -34,7 +34,7 @@ public class ModelTest {
     }
 
     @Test
-    public void testWin() {
+    public void testWin() throws GameNotEndedException {
         Model model = new Model();
         model.makeMove(0, 0, true);
         model.makeMove(1, 0, false);
@@ -42,11 +42,12 @@ public class ModelTest {
         model.makeMove(1, 1, false);
         model.makeMove(0, 2, true);
         assertEquals(true, model.gameEnded());
-        assertEquals(GameInfo.GameResult.Win, model.getGameResult());
+        assertEquals(GameInfo.GameResult.WIN, model.getGameResult());
+        assertEquals(GameInfo.GameResult.WIN, model.getFinalGameResult());
     }
 
     @Test
-    public void testLose() {
+    public void testLose() throws GameNotEndedException {
         Model model = new Model();
         model.makeMove(1, 0, true);
         model.makeMove(0, 0, false);
@@ -55,7 +56,9 @@ public class ModelTest {
         model.makeMove(0, 2, true);
         model.makeMove(2, 2, false);
         assertEquals(true, model.gameEnded());
-        assertEquals(GameInfo.GameResult.Lose, model.getGameResult());
+        assertEquals(GameInfo.GameResult.LOSE, model.getGameResult());
+        assertEquals(GameInfo.GameResult.LOSE, model.getFinalGameResult());
+
     }
 
     /**
@@ -80,8 +83,19 @@ public class ModelTest {
         model.makeMove(2, 2, true);
 
         assertEquals(true, model.gameEnded());
-        assertEquals(GameInfo.GameResult.Draw, model.getGameResult());
+        assertEquals(GameInfo.GameResult.DRAW, model.getGameResult());
     }
+
+    @Test (expected = GameNotEndedException.class)
+    public void testFinalGameResult() throws GameNotEndedException {
+        Model model = new Model();
+        assertEquals(true, model.makeMove(0, 0, true));
+        assertEquals(true, model.makeMove(1, 0, false));
+        assertEquals(true, model.makeMove(0, 1, true));
+        assertEquals(true, model.makeMove(1, 1, false));
+        model.getFinalGameResult();
+    }
+
 
     @Test
     public void testCanMakeMove() {

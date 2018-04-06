@@ -12,6 +12,7 @@ public class EasyBot implements Bot {
 
     private final Model model;
     private Random rnd = new Random();
+    private final int boardSize;
 
     /**
      * Constructs a bot.
@@ -19,13 +20,16 @@ public class EasyBot implements Bot {
      */
     public EasyBot(@NotNull Model model) {
         this.model = model;
+        boardSize = model.getBoardSize();
     }
 
     @Override
     public int getMove() {
-        int move = ((rnd.nextInt() % 9) + 9) % 9;
+        int maxMoveNum = boardSize * boardSize;
+
+        int move = ((rnd.nextInt() % maxMoveNum) + maxMoveNum) % maxMoveNum;
         while (!model.canMakeMove(move)) {
-            move = ((rnd.nextInt() % 9) + 9) % 9;
+            move = ((rnd.nextInt() % maxMoveNum) + maxMoveNum) % maxMoveNum;
         }
         return move;
     }
