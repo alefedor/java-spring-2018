@@ -7,7 +7,6 @@ import java.io.*;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
-import java.util.concurrent.TimeoutException;
 import java.util.logging.Logger;
 
 /**

@@ -1,7 +1,5 @@
 package ru.spbau.fedorov.test;
 
-import com.sun.xml.internal.messaging.saaj.util.ByteOutputStream;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
