@@ -124,16 +124,6 @@ public class FTPTest {
     }
 
     @Test
-    public void testListEmptyDirectory() throws IOException {
-        String path = TEST_DIR + "A" + File.separator + "C" + File.separator + "empty";
-        System.out.println(path);
-        FTPClient client = new FTPClient(host);
-        List<FileEntry> files = client.list(path);
-
-        assertTrue(files == null);
-    }
-
-    @Test
     public void testGetLargeFile() throws IOException {
         String path = TEST_DIR + "A" + File.separator + "large";
         FTPClient client = new FTPClient(host);
@@ -156,7 +146,7 @@ public class FTPTest {
         FTPClient client = new FTPClient(host);
         List<FileEntry> shouldBe = new ArrayList<>();
         shouldBe.add(new FileEntry("C", false));
-        shouldBe.add(new FileEntry("empty", true));
+        shouldBe.add(new FileEntry("D", true));
 
         for (int i = 0; i < 2; i++) {
             List<FileEntry> files = client.list(dirpath);
