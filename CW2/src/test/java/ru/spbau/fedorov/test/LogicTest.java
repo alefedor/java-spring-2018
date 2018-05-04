@@ -46,18 +46,24 @@ public class LogicTest {
 
         int board[][] = new int[BOARD_SIZE][BOARD_SIZE];
 
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 board[i][j] = logic.get(i, j);
+            }
+        }
 
-        for (int x1 = 0; x1 < BOARD_SIZE; x1++)
-            for (int y1 = 0; y1 < BOARD_SIZE; y1++)
-                for (int x2 = 0; x2 < BOARD_SIZE; x2++)
-                    for (int y2 = 0; y2 < BOARD_SIZE; y2++)
-                        if (board[x1][y1] != board[x2][y2]){
-                            while (!logic.push(buttons[x1][y1], x1, y1));
-                            while (!logic.push(buttons[x2][y2], x1, y1));
+        for (int x1 = 0; x1 < BOARD_SIZE; x1++) {
+            for (int y1 = 0; y1 < BOARD_SIZE; y1++) {
+                for (int x2 = 0; x2 < BOARD_SIZE; x2++) {
+                    for (int y2 = 0; y2 < BOARD_SIZE; y2++) {
+                        if (board[x1][y1] != board[x2][y2]) {
+                            while (!logic.push(buttons[x1][y1], x1, y1)) ;
+                            while (!logic.push(buttons[x2][y2], x1, y1)) ;
                         }
+                    }
+                }
+            }
+        }
 
         assertFalse(logic.isWin());
     }
@@ -75,19 +81,25 @@ public class LogicTest {
 
         int board[][] = new int[BOARD_SIZE][BOARD_SIZE];
 
-        for (int i = 0; i < BOARD_SIZE; i++)
-            for (int j = 0; j < BOARD_SIZE; j++)
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 board[i][j] = logic.get(i, j);
+            }
+        }
 
-        for (int x1 = 0; x1 < BOARD_SIZE; x1++)
-            for (int y1 = 0; y1 < BOARD_SIZE; y1++)
-                for (int x2 = 0; x2 < BOARD_SIZE; x2++)
-                    for (int y2 = 0; y2 < BOARD_SIZE; y2++)
-                        if (board[x1][y1] == board[x2][y2]){
-                            while (!logic.push(buttons[x1][y1], x1, y1));
-                            while (!logic.push(buttons[x2][y2], x1, y1));
+        for (int x1 = 0; x1 < BOARD_SIZE; x1++) {
+            for (int y1 = 0; y1 < BOARD_SIZE; y1++) {
+                for (int x2 = 0; x2 < BOARD_SIZE; x2++) {
+                    for (int y2 = 0; y2 < BOARD_SIZE; y2++) {
+                        if (board[x1][y1] == board[x2][y2]) {
+                            while (!logic.push(buttons[x1][y1], x1, y1)) ;
+                            while (!logic.push(buttons[x2][y2], x1, y1)) ;
                         }
+                    }
+                }
+            }
+        }
 
         assertTrue(logic.isWin());
-    }   
+    }
 }
