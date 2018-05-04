@@ -5,6 +5,7 @@ import javafx.concurrent.WorkerStateEvent;
 import javafx.event.EventHandler;
 import javafx.scene.control.Button;
 import lombok.Getter;
+import org.jetbrains.annotations.NotNull;
 import ru.spbau.fedorov.algo.Controller;
 
 /**
@@ -36,7 +37,7 @@ public class Logic {
      * @return return true, if push successful (not blocked)
      */
 
-    public boolean push(Button b, int x, int y) {
+    public boolean push(@NotNull Button b, int x, int y) {
         if (blocked) {
             return false; // ignore clicks
         }
@@ -92,7 +93,7 @@ public class Logic {
      * @param y second coordinate
      * @return return true, if release successful (not blocked)
      */
-    public boolean release(Button b, int x, int y) {
+    public boolean release(@NotNull Button b, int x, int y) {
         if (blocked) {
             return false; // ignore clicks
         }
