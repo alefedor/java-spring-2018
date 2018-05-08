@@ -95,6 +95,11 @@ public class Model {
         }
     }
 
+    /**
+     * Get game result. It is guaranteed that if gameEnded then GameNotEndedException wouldn't be thrown.
+     * @return GameResult of the finished game
+     * @throws GameNotEndedException if game not ended yet.
+     */
     @NotNull
     public GameInfo.GameResult getFinalGameResult() throws GameNotEndedException {
         GameInfo.GameResult result = getGameResult();
