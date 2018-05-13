@@ -40,7 +40,7 @@ public class FTPClient {
             DataInputStream inputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
 
-            outputStream.writeInt(1);
+            outputStream.writeInt(FTPServer.QueryType.LIST);
             outputStream.writeUTF(path);
             outputStream.flush();
 
@@ -67,14 +67,14 @@ public class FTPClient {
      * @param path path to file
      * @param destination where to write content of file.
      * @return true if there was file in path
-     * @throws IOException
+     * @throws IOException when IO fails
      */
     public boolean get(@NotNull String path, @NotNull OutputStream destination) throws IOException {
         try (Socket socket = new Socket(host, FTPServer.getPORT())) {
 
             DataInputStream inputStream = new DataInputStream(socket.getInputStream());
             DataOutputStream outputStream = new DataOutputStream(socket.getOutputStream());
-            outputStream.writeInt(2);
+            outputStream.writeInt(FTPServer.QueryType.GET);
             outputStream.writeUTF(path);
             outputStream.flush();
 

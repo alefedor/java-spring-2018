@@ -15,8 +15,6 @@ import java.util.logging.Logger;
  */
 public class FTPServer {
     @Getter private static final int PORT = 1234;
-    private static final int LIST = 1;
-    private static final int GET = 2;
     private static final int BUFFER_SIZE = 4 * 1024;
     private static Logger logger = Logger.getGlobal();
     private static byte[] buffer = new byte[BUFFER_SIZE];
@@ -78,13 +76,13 @@ public class FTPServer {
 
             query = inputStream.readInt();
             switch (query) {
-                case LIST:
+                case QueryType.LIST:
                     path = inputStream.readUTF();
                     logger.info("List query: " + path);
                     sendList(path, outputStream);
                     break;
 
-                case GET:
+                case QueryType.GET:
                     path = inputStream.readUTF();
                     logger.info("Get query: " + path);
                     sendFile(path, outputStream);
@@ -145,5 +143,10 @@ public class FTPServer {
         }
 
         output.flush();
+    }
+
+    public static class QueryType {
+        public static final int LIST = 1;
+        public static final int GET = 2;
     }
 }
