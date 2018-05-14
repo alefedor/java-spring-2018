@@ -189,7 +189,6 @@ public class Controller {
             try {
                 result = model.getFinalGameResult();
             } catch (GameNotEndedException e) {
-                e.printStackTrace();
                 throw new RuntimeException("Guarantee is broken. If gameEnded then GameNotEndedException shouldn't be thrown");
             }
             onGameEnd(result);
