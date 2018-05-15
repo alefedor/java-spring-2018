@@ -9,6 +9,7 @@ import java.io.*;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 /**
  * Client for FTPServer. Can ask for list of files and download a file.
@@ -17,6 +18,8 @@ public class FTPClient {
     private static final int BUFFER_SIZE = 4 * 1024;
     private byte buffer[] = new byte[BUFFER_SIZE];
     private final String host;
+    private static final String USAGE = "ARGS: (server hostname : String)";
+    private static final String COMMAND_USAGE = "get/list <path : String> or exit";
 
     /**
      * Creates client attached to a specific host
@@ -26,6 +29,69 @@ public class FTPClient {
     public FTPClient(@NotNull String host) throws IOException {
         this.host = host;
     }
+
+    /**
+     * Runs client connecting to server on port FTPServer.PORT
+     * @param args Arguments for server. Should consist of one string -- localhost
+     * @throws IOException when IO fails
+     */
+    public static void main(String[] args) {
+        if (args.length != 1) {
+            System.out.println(USAGE);
+            return;
+        }
+
+        try {
+            FTPClient client = new FTPClient(args[0]);
+            handleQueries(new Scanner(System.in), new PrintWriter(System.out), client);
+        } catch (IOException e) {
+            System.out.println("Fail in IO");
+            e.printStackTrace();
+        }
+    }
+
+    private static void handleQueries(@NotNull Scanner scanner, @NotNull PrintWriter writer, @NotNull FTPClient client) throws IOException {
+        while (scanner.hasNext()) {
+            String command = scanner.nextLine();
+            String words[] = command.split(" ");
+
+            if (words.length == 1 && words[0].equals("exit")) {
+                break;
+            }
+
+            if (words.length == 2) {
+                switch (words[0]) {
+                    case "list":
+                        writer.println("Going to path " + words[1]);
+                        List<FileEntry> result = client.list(words[1]);
+                        if (result == null) {
+                            writer.println("No such file");
+                        } else {
+                            for (FileEntry entry : result) {
+                                writer.println((entry.isDirectory() ? "Directory" : "File") + " " + entry.getFilename());
+                            }
+                        }
+                        break;
+
+                    case "get":
+                        writer.println("Getting file from path " + words[1]);
+                        String filename = new File(words[1]).getName();
+                        if (client.get(words[1], new FileOutputStream(filename))) {
+                            writer.println("File was downloaded in the current dir");
+                        } else {
+                            writer.println("No such file");
+                        }
+                        break;
+
+                    default:
+                        writer.println(COMMAND_USAGE);
+                }
+            } else {
+                writer.println(COMMAND_USAGE);
+            }
+        }
+    }
+
 
     /**
      * Asks server for list of files.

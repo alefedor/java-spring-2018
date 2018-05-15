@@ -20,7 +20,7 @@ public class FTPServer {
     @Getter private static boolean running = false;
 
     /**
-     * Runs server on port PORT. Listens to clients. May be interrupted for shuting down.
+     * Runs server on port PORT. Listens to clients. May be interrupted for shutting down.
      * @param args Arguments for server (currently ignored)
      * @throws IOException when IO fails
      */

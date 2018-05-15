@@ -8,5 +8,5 @@ import lombok.Data;
 @Data
 public class FileEntry {
     private final String filename;
-    private final boolean isDir;
+    private final boolean directory;
 }
