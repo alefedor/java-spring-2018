@@ -22,6 +22,7 @@ import ru.spbau.fedorov.algo.server.FTPServer;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -47,6 +48,24 @@ public class Controller {
     private FTPClient client;
 
     /**
+     * Initialization of GUI elements
+     */
+    public void initialize() {
+        treeView.setOnMouseClicked(new EventHandler<MouseEvent>() {
+            @Override
+            public void handle(MouseEvent event) {
+                TreeItem<FileEntry> selected = treeView.getSelectionModel().getSelectedItem();
+
+                if (selected == null || !selected.isLeaf() || event.getClickCount() != 2) {
+                    return;
+                }
+
+                saveFile(null);
+            }
+        });
+    }
+
+    /**
      * Runs server on a local side
      */
     public void createServer(MouseEvent mouseEvent) {
@@ -60,13 +79,17 @@ public class Controller {
                 FTPServer.main(null);
             } catch (Exception e) {
                 FTPServer.setRunning(false);
-                e.printStackTrace();
+                Platform.runLater(() -> {
+                    alert("Can't run server");
+                    e.printStackTrace();
+                    Platform.exit();
+                });
             }
         });
 
         server.start();
 
-        alert("Successful run of server");
+        alert("Trying to start server (if no errors then successful)");
     }
 
     /**
@@ -131,9 +154,11 @@ public class Controller {
 
 
         String source = ((FTPTreeItem)selected).getPath();
+        String currentDirectory = Paths.get(".").toAbsolutePath().toString();
 
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setInitialDirectory(new File(System.getProperty("user.home")));
+        fileChooser.setInitialDirectory(new File(currentDirectory));
+        fileChooser.setInitialFileName(new File(source).getName());
         Window window = treeView.getScene().getWindow();
         File destination = fileChooser.showSaveDialog(window);
         if (destination == null || destination.isDirectory()) {
