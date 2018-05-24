@@ -15,8 +15,8 @@ public class Model {
      * Constructs Model with 3x3 board.
      */
     public Model() {
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++){
+        for (int i = 0; i < BOARD_SIZE; i++)
+            for (int j = 0; j < BOARD_SIZE; j++){
                board[i][j] = Sign.EMPTY;
             }
     }
@@ -113,8 +113,8 @@ public class Model {
 
     private boolean isNotFull() {
         boolean hasEmpty = false;
-        for (int i = 0; i < 3; i++)
-            for (int j = 0; j < 3; j++) {
+        for (int i = 0; i < BOARD_SIZE; i++)
+            for (int j = 0; j < BOARD_SIZE; j++) {
                 hasEmpty |= board[i][j].equals(Sign.EMPTY);
             }
         return hasEmpty;
