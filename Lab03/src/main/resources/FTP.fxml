@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<ScrollPane xmlns:fx="http://javafx.com/fxml/1" fitToHeight="true" fitToWidth="true" maxHeight="Infinity"
+            maxWidth="Infinity" xmlns="http://javafx.com/javafx/8.0.121"
+            fx:controller="ru.spbau.fedorov.algo.Controller">
+    <GridPane alignment="CENTER" hgap="17.0" maxHeight="Infinity" maxWidth="Infinity"
+              minHeight="200" minWidth="-Infinity" prefHeight="500.0" prefWidth="400.0" vgap="7.0">
+        <columnConstraints>
+            <ColumnConstraints hgrow="ALWAYS" maxWidth="Infinity" minWidth="300.0"/>
+        </columnConstraints>
+        <rowConstraints>
+            <RowConstraints minHeight="120.0" vgrow="NEVER"/>
+            <RowConstraints minHeight="50.0" vgrow="ALWAYS"/>
+        </rowConstraints>
+        <padding>
+            <Insets bottom="20.0" left="20.0" right="20.0"/>
+        </padding>
+        <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
+            <GridPane.margin>
+                <Insets/>
+            </GridPane.margin>
+            <padding>
+                <Insets left="10.0" right="10.0"/>
+            </padding>
+            <VBox maxHeight="Infinity" maxWidth="Infinity" prefHeight="200.0"
+                  prefWidth="100.0" HBox.hgrow="ALWAYS">
+                <HBox alignment="CENTER_LEFT" spacing="12.0" VBox.vgrow="ALWAYS">
+                    <TextField fx:id="hostnameText" promptText="hostname" minWidth="100"/>
+                    <Button fx:id="setHostnameButton" mnemonicParsing="false" onMouseClicked="#setHostname"
+                            minWidth="100"  text="Set hostname"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="12.0" VBox.vgrow="ALWAYS">
+                    <Button fx:id="createButton" mnemonicParsing="false" onMouseClicked="#createServer"
+                            minWidth="100"  text="Run server"/>
+                    <Button fx:id="shutdownButton" mnemonicParsing="false" onMouseClicked="#shutdownServer"
+                            minWidth="100" text="Shutdown server"/>
+                </HBox>
+                <HBox alignment="CENTER_LEFT" spacing="12.0" VBox.vgrow="ALWAYS">
+                    <Button fx:id="gotoButton" mnemonicParsing="false" onMouseClicked="#walkToPath"
+                            minWidth="70" text="Go to"/>
+                    <TextField fx:id="pathText" promptText="path to go" minWidth="100"/>
+                    <Button fx:id="saveButton" mnemonicParsing="false" onMouseClicked="#saveFile"
+                            minWidth="70" text="Save file"/>
+                </HBox>
+            </VBox>
+        </HBox>
+        <TreeView fx:id="treeView" maxHeight="Infinity" maxWidth="Infinity"
+                  GridPane.rowIndex="1"/>
+        <opaqueInsets>
+            <Insets/>
+        </opaqueInsets>
+    </GridPane>
+</ScrollPane>

@@ -33,6 +33,7 @@ public class FTPTest {
             try {
                 FTPServer.main(null);
             } catch (IOException e) {
+                FTPServer.setRunning(false);
                 e.printStackTrace();
             }
         });

@@ -1,6 +1,7 @@
 package ru.spbau.fedorov.algo.server;
 
 import lombok.Getter;
+import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.*;
@@ -17,7 +18,7 @@ public class FTPServer {
     private static final int BUFFER_SIZE = 4 * 1024;
     private static Logger logger = Logger.getGlobal();
     private static byte[] buffer = new byte[BUFFER_SIZE];
-    @Getter private static boolean running = false;
+    @Setter @Getter private static volatile boolean running = false;
 
     /**
      * Runs server on port PORT. Listens to clients. May be interrupted for shutting down.
