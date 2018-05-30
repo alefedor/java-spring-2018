@@ -62,7 +62,7 @@ public class FTPClient {
             if (words.length == 2) {
                 switch (words[0]) {
                     case "list":
-                        writer.println("Going to path " + words[1]);
+                        writer.println("List files in path " + words[1]);
                         List<FileEntry> result = client.list(words[1]);
                         if (result == null) {
                             writer.println("No such file");
@@ -71,6 +71,7 @@ public class FTPClient {
                                 writer.println((entry.isDirectory() ? "Directory" : "File") + " " + entry.getFilename());
                             }
                         }
+                        writer.flush();
                         break;
 
                     case "get":
@@ -81,6 +82,7 @@ public class FTPClient {
                         } else {
                             writer.println("No such file");
                         }
+                        writer.flush();
                         break;
 
                     default:
@@ -89,6 +91,7 @@ public class FTPClient {
             } else {
                 writer.println(COMMAND_USAGE);
             }
+            writer.flush();
         }
     }
 
