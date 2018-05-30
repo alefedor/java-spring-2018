@@ -9,4 +9,9 @@ import lombok.Data;
 public class FileEntry {
     private final String filename;
     private final boolean directory;
+
+    @Override
+    public String toString() {
+        return filename;
+    }
 }
