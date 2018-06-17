@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Architectures.iml" filepath="$PROJECT_DIR$/.idea/modules/Architectures.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Architectures_main.iml" filepath="$PROJECT_DIR$/.idea/modules/Architectures_main.iml" group="Architectures" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Architectures_test.iml" filepath="$PROJECT_DIR$/.idea/modules/Architectures_test.iml" group="Architectures" />
+    </modules>
+  </component>
+</project>
