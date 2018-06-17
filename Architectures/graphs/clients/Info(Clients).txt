@@ -1,0 +1,147 @@
+Separate thread server
+Changing parameter: Number of clients
+Step 3
+Iterations 10
+Clients 3
+Queries 50
+Elements 200
+Pause 0
+Iteration number 0
+Average query on server 0.36000000000000004
+Average query on client 110.34666666666666
+Average client time 5512.333333333333
+Iteration number 0
+Average query on server 0.33666666666666667
+Average query on client 107.09666666666666
+Average client time 5350.333333333333
+Iteration number 0
+Average query on server 0.3577777777777778
+Average query on client 144.51333333333335
+Average client time 7219.111111111111
+Iteration number 0
+Average query on server 0.32666666666666666
+Average query on client 125.53333333333335
+Average client time 6260.75
+Iteration number 0
+Average query on server 0.2853333333333333
+Average query on client 144.34133333333332
+Average client time 7204.866666666667
+Iteration number 0
+Average query on server 0.2577777777777778
+Average query on client 184.92555555555555
+Average client time 9230.388888888889
+Iteration number 0
+Average query on server 0.31333333333333335
+Average query on client 140.02
+Average client time 6987.428571428572
+Iteration number 0
+Average query on server 0.315
+Average query on client 163.35416666666666
+Average client time 8118.291666666667
+Iteration number 0
+Average query on server 0.32814814814814813
+Average query on client 137.11333333333334
+Average client time 6806.333333333333
+Iteration number 0
+Average query on server 0.32599999999999996
+Average query on client 105.35266666666666
+Average client time 5259.7
+========================
+Thread pool server
+Changing parameter: Number of clients
+Step 3
+Iterations 10
+Clients 3
+Queries 50
+Elements 200
+Pause 0
+Iteration number 1
+Average query on server 0.49333333333333335
+Average query on client 100.32666666666665
+Average client time 5013.333333333333
+Iteration number 1
+Average query on server 0.4366666666666667
+Average query on client 110.47333333333334
+Average client time 5516.333333333333
+Iteration number 1
+Average query on server 0.5422222222222222
+Average query on client 109.16
+Average client time 5451.555555555556
+Iteration number 1
+Average query on server 0.5316666666666666
+Average query on client 100.84666666666666
+Average client time 5038.0
+Iteration number 1
+Average query on server 0.5533333333333333
+Average query on client 99.89866666666667
+Average client time 4989.133333333333
+Iteration number 1
+Average query on server 0.5588888888888889
+Average query on client 111.51111111111112
+Average client time 5568.666666666667
+Iteration number 1
+Average query on server 0.7238095238095238
+Average query on client 155.9895238095238
+Average client time 7796.190476190476
+Iteration number 1
+Average query on server 0.5816666666666667
+Average query on client 100.9275
+Average client time 5039.541666666667
+Iteration number 1
+Average query on server 0.5385185185185185
+Average query on client 113.8037037037037
+Average client time 5662.777777777777
+Iteration number 1
+Average query on server 0.574
+Average query on client 112.14133333333334
+Average client time 5595.866666666667
+========================
+Non blocking server
+Changing parameter: Number of clients
+Step 3
+Iterations 10
+Clients 3
+Queries 50
+Elements 200
+Pause 0
+Iteration number 2
+Average query on server 0.39999999999999997
+Average query on client 51.57333333333333
+Average client time 2575.3333333333335
+Iteration number 2
+Average query on server 0.2866666666666667
+Average query on client 58.58333333333333
+Average client time 2925.8333333333335
+Iteration number 2
+Average query on server 0.44
+Average query on client 51.89333333333333
+Average client time 2586.6666666666665
+Iteration number 2
+Average query on server 0.41333333333333333
+Average query on client 52.55833333333333
+Average client time 2619.9166666666665
+Iteration number 2
+Average query on server 0.5346666666666666
+Average query on client 54.523999999999994
+Average client time 2716.6
+Iteration number 2
+Average query on server 0.4822222222222222
+Average query on client 67.68
+Average client time 3368.5
+Iteration number 2
+Average query on server 0.4866666666666667
+Average query on client 56.677142857142854
+Average client time 2821.9523809523807
+Iteration number 2
+Average query on server 0.4916666666666667
+Average query on client 58.62916666666667
+Average client time 2917.4583333333335
+Iteration number 2
+Average query on server 0.4918518518518518
+Average query on client 60.20444444444444
+Average client time 2992.5185185185187
+Iteration number 2
+Average query on server 0.5406666666666666
+Average query on client 74.83133333333333
+Average client time 3727.5
+========================

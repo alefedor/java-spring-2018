@@ -15,7 +15,7 @@ public class Architectures extends Application {
     @Override
     public void start(@NotNull Stage primaryStage) throws Exception {
         Parent root = FXMLLoader.load(getClass().getResource("/Architectures.fxml"));
-        primaryStage.setTitle("FTP");
+        primaryStage.setTitle("Architectures");
         Scene scene = new Scene(root);
         primaryStage.setScene(scene);
         primaryStage.show();
